@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37111.16 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "apisimov222", "apisimov222\apisimov222.csproj", "{953DDFFB-E85F-4052-974B-B77AB109D720}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnisimovApp", "AnisimovApp\AnisimovApp.csproj", "{13FB4B64-06CA-46BD-988B-8A060217ADE4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{953DDFFB-E85F-4052-974B-B77AB109D720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{953DDFFB-E85F-4052-974B-B77AB109D720}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{953DDFFB-E85F-4052-974B-B77AB109D720}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{953DDFFB-E85F-4052-974B-B77AB109D720}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13FB4B64-06CA-46BD-988B-8A060217ADE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13FB4B64-06CA-46BD-988B-8A060217ADE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13FB4B64-06CA-46BD-988B-8A060217ADE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13FB4B64-06CA-46BD-988B-8A060217ADE4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E689420C-53C9-4091-9189-661FCE8B4651}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:AnisimovApp.ViewModels"
+    x:Class="AnisimovApp.Views.ProductsPage"
+    Title="Товары"
+    BackgroundColor="White">
+
+    <ContentPage.BindingContext>
+        <viewModels:ProductsViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto,Auto,*">
+
+        <Label
+            Grid.Row="0"
+            Text="Список товаров"
+            FontSize="24"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            Margin="10"/>
+
+        <SearchBar
+            Grid.Row="1"
+            Placeholder="Поиск товара..."
+            Text="{Binding SearchText}"
+            Margin="10,0"/>
+
+        <CollectionView
+            Grid.Row="2"
+            ItemsSource="{Binding Products}"
+            Margin="10">
+
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate>
+
+                    <Frame
+                        Margin="0,5"
+                        Padding="10"
+                        CornerRadius="0"
+                        BorderColor="Black"
+                        HasShadow="False"
+                        BackgroundColor="White">
+
+                        <Frame.Triggers>
+
+                            <DataTrigger
+                                TargetType="Frame"
+                                Binding="{Binding IsOutOfStock}"
+                                Value="True">
+
+                                <Setter
+                                    Property="BackgroundColor"
+                                    Value="LightBlue"/>
+
+                            </DataTrigger>
+
+                            <DataTrigger
+                                TargetType="Frame"
+                                Binding="{Binding IsHighDiscount}"
+                                Value="True">
+
+                                <Setter
+                                    Property="BackgroundColor"
+                                    Value="#2E8B57"/>
+
+                            </DataTrigger>
+
+                        </Frame.Triggers>
+
+                        <Grid ColumnDefinitions="120,*,90">
+
+                            <Frame
+                                Grid.Column="0"
+                                WidthRequest="110"
+                                HeightRequest="110"
+                                BackgroundColor="#EEEEEE"
+                                BorderColor="Black"
+                                CornerRadius="0"
+                                HasShadow="False">
+
+                                <Image
+                                    Source="no_photo.png"
+                                    Aspect="AspectFit"/>
+
+                            </Frame>
+
+                            <VerticalStackLayout
+                                Grid.Column="1"
+                                Spacing="3">
+
+                                <Label
+                                    Text="{Binding ProductName}"
+                                    FontSize="18"
+                                    FontAttributes="Bold"/>
+
+                                <Label
+                                    Text="{Binding Category,
+                                    StringFormat='Категория: {0}'}"/>
+
+                                <Label
+                                    Text="{Binding Manufacturer,
+                                    StringFormat='Производитель: {0}'}"/>
+
+                                <Label
+                                    Text="{Binding Supplier,
+                                    StringFormat='Поставщик: {0}'}"/>
+
+                                <Label
+                                    Text="{Binding Description}"
+                                    MaxLines="2"/>
+
+                                <HorizontalStackLayout Spacing="10">
+
+                                    <Label
+                                        Text="{Binding Amount,
+                                        StringFormat='{0} ₽'}"
+                                        TextColor="Black"
+                                        FontAttributes="Bold"
+
+                                        <Label.Triggers>
+
+                                            <DataTrigger
+                                                TargetType="Label"
+                                                Binding="{Binding HasDiscount}"
+                                                Value="True">
+
+                                                <Setter
+                                                    Property="IsVisible"
+                                                    Value="False"/>
+
+                                            </DataTrigger>
+
+                                        </Label.Triggers>
+
+                                    </Label>
+
+                                    <Label
+                                        Text="{Binding FinalPrice,
+                                        StringFormat='{0:F2} ₽'}"
+                                        FontAttributes="Bold"
+                                        TextColor="Black"/>
+
+                                </HorizontalStackLayout>
+
+                                <Label
+                                    Text="{Binding Count,
+                                    StringFormat='Остаток: {0}'}"/>
+
+                            </VerticalStackLayout>
+
+
+                            <Border
+                                Grid.Column="2"
+                                Stroke="Black"
+                                StrokeThickness="1">
+
+                                <Grid>
+
+                                    <VerticalStackLayout
+                                        VerticalOptions="Center">
+
+                                        <Label
+                                            Text="{Binding Discount,
+                                            StringFormat='{0}%'}"
+                                            FontSize="24"
+                                            FontAttributes="Bold"
+                                            HorizontalOptions="Center"/>
+
+                                        <Label
+                                            Text="СКИДКА"
+                                            FontSize="12"
+                                            HorizontalOptions="Center"/>
+
+                                    </VerticalStackLayout>
+
+                                </Grid>
+
+                            </Border>
+
+                        </Grid>
+
+                    </Frame>
+
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>
