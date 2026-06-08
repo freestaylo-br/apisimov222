@@ -16,7 +16,22 @@ public class Product
 
     public decimal Count { get; set; }
 
-    public string Photo { get; set; } = "";
+    private string? photo;
+
+    public string? Photo
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(photo))
+                return null;
+
+            return $"http://localhost:5282/images/{photo}";
+        }
+        set
+        {
+            photo = value;
+        }
+    }
 
     public string UnitOfMeasurement { get; set; } = "";
 
@@ -28,5 +43,11 @@ public class Product
     public bool IsHighDiscount => Discount > 15;
     public bool IsOutOfStock => Count == 0;
     public bool HasDiscount => Discount > 0;
-    public decimal FinalPrice => Amount - (Amount * Discount / 100);
+    public decimal FinalPrice
+    {
+        get
+        {
+            return Amount - (Amount * Discount / 100);
+        }
+    }
 }

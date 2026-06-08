@@ -6,4 +6,15 @@ public partial class LoginPage : ContentPage
 	{
 		InitializeComponent();
 	}
+
+	//private async void GuestClicked(
+	//	object sender,
+	//	EventArgs e)
+	//{
+	//	CurrentUser.FullName = "Гость";
+	//	CurrentUser.RoleId = 0;
+
+	//	await Navigation.PushAsync(
+	//		new ProductsPage());
+	//}
 }

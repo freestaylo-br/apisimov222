@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using AnisimovApp.Services;
 using AnisimovApp.Views;
+using System.Runtime.Intrinsics.X86;
 
 namespace AnisimovApp.ViewModels;
 
@@ -29,21 +30,19 @@ public partial class LoginViewModel : ObservableObject
                 Login,
                 Password);
 
-            if (user == null)
+            if (user==null)
             {
                 await Application.Current.MainPage.DisplayAlert(
                     "Ошибка",
                     "Неверный логин или пароль",
-                    "OK");
+                    "ОК");
 
                 return;
             }
 
-            await Application.Current.MainPage.DisplayAlert(
-                "Успех",
-                "Добро",
-                "OK");
+            Session.UserFio = $"{user.Surname} {user.Name} {user.Patronymic}";
 
+            
 
             Application.Current.MainPage =
                 new NavigationPage(
@@ -56,5 +55,13 @@ public partial class LoginViewModel : ObservableObject
                 ex.Message,
                 "OK");
         }
+    }
+
+    [RelayCommand]
+    private async Task GuestLogin()
+    {
+        Session.UserFio = "Гость";
+
+        await Application.Current.MainPage.Navigation.PushAsync(new ProductsPage());
     }
 }

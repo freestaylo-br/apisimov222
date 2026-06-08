@@ -14,13 +14,33 @@
 
     <Grid RowDefinitions="Auto,Auto,*">
 
-        <Label
-            Grid.Row="0"
-            Text="Список товаров"
-            FontSize="24"
-            FontAttributes="Bold"
-            HorizontalOptions="Center"
-            Margin="10"/>
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto">
+
+            <Label
+                Grid.Row="0"
+                Text="Список товаров"
+                FontSize="24"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Margin="10"/>
+
+            <Label
+                Grid.Column="1"
+                Text="{Binding UserFio}"
+                VerticalOptions="Center"
+                Margin="0,0,20,0"
+                FontAttributes="Bold"/>
+
+            <Button
+                Grid.Column="2"
+                Text="Выход"
+                Clicked="Logout_Clicked"
+                Margin="0,10,20,10"
+                BackgroundColor="#00FA9A"
+                TextColor="Black"
+                FontAttributes="Bold"/>
+                
+        </Grid>
 
         <SearchBar
             Grid.Row="1"
@@ -83,8 +103,10 @@
                                 HasShadow="False">
 
                                 <Image
-                                    Source="no_photo.png"
-                                    Aspect="AspectFit"/>
+                                    Source="{Binding Photo, TargetNullValue=picture.png}"
+                                    Aspect="AspectFit"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"/>
 
                             </Frame>
 
@@ -93,13 +115,21 @@
                                 Spacing="3">
 
                                 <Label
-                                    Text="{Binding ProductName}"
                                     FontSize="18"
-                                    FontAttributes="Bold"/>
+                                    FontAttributes="Bold">
+
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Category}" />
+                                            <Span Text=" | " />
+                                            <Span Text="{Binding ProductName}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
 
                                 <Label
-                                    Text="{Binding Category,
-                                    StringFormat='Категория: {0}'}"/>
+                                    Text="{Binding Description,
+                                    StringFormat='Описание товара: {0}'}"/>
 
                                 <Label
                                     Text="{Binding Manufacturer,
@@ -109,46 +139,72 @@
                                     Text="{Binding Supplier,
                                     StringFormat='Поставщик: {0}'}"/>
 
-                                <Label
-                                    Text="{Binding Description}"
-                                    MaxLines="2"/>
-
                                 <HorizontalStackLayout Spacing="10">
 
-                                    <Label
-                                        Text="{Binding Amount,
-                                        StringFormat='{0} ₽'}"
-                                        TextColor="Black"
-                                        FontAttributes="Bold"
+                                    <VerticalStackLayout Spacing="2">
 
-                                        <Label.Triggers>
+                                        <Label
+                                            Text="{Binding Amount, StringFormat='{0} ₽'}"
+                                            FontAttributes="Bold"
+                                            TextColor="Black">
 
-                                            <DataTrigger
-                                                TargetType="Label"
-                                                Binding="{Binding HasDiscount}"
-                                                Value="True">
+                                            <Label.Triggers>
 
-                                                <Setter
-                                                    Property="IsVisible"
-                                                    Value="False"/>
+                                                <DataTrigger
+                                                    TargetType="Label"
+                                                    Binding="{Binding HasDiscount}"
+                                                    Value="True">
+                                                    
+                                                    <Setter
+                                                        Property="IsVisible"
+                                                        Value="False"/>
 
-                                            </DataTrigger>
+                                                </DataTrigger>
 
-                                        </Label.Triggers>
+                                            </Label.Triggers>
 
-                                    </Label>
+                                        </Label>
 
-                                    <Label
-                                        Text="{Binding FinalPrice,
-                                        StringFormat='{0:F2} ₽'}"
-                                        FontAttributes="Bold"
-                                        TextColor="Black"/>
+                                        <HorizontalStackLayout Spacing="10">
+
+                                            <HorizontalStackLayout.Triggers>
+
+                                                <DataTrigger
+                                                    TargetType="HorizontalStackLayout"
+                                                    Binding="{Binding HasDiscount}"
+                                                    Value="False">
+
+                                                    <Setter
+                                                        Property="IsVisible"
+                                                        Value="False"/>
+
+                                                </DataTrigger>
+
+                                            </HorizontalStackLayout.Triggers>
+
+                                            <Label
+                                                Text="{Binding Amount, StringFormat='{0} ₽'}"
+                                                TextColor="Red"
+                                                TextDecorations="Strikethrough"/>
+
+                                            <Label
+                                                Text="{Binding FinalPrice, StringFormat='{0:F2} ₽'}"
+                                                FontAttributes="Bold"
+                                                TextColor="Black"/>
+
+                                        </HorizontalStackLayout>
+
+                                    </VerticalStackLayout>
 
                                 </HorizontalStackLayout>
 
                                 <Label
+                                    Text="{Binding UnitOfMeasurement,
+                                    StringFormat='Единица измерения: {0}'}"/>
+
+                                <Label
                                     Text="{Binding Count,
-                                    StringFormat='Остаток: {0}'}"/>
+                                    StringFormat='Остаток на складе: {0}'}"/>
 
                             </VerticalStackLayout>
 

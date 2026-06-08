@@ -53,4 +53,7 @@ public partial class ProductsViewModel : ObservableObject
             Products.Add(product);
         }
     }
+    public string UserFio => string.IsNullOrWhiteSpace(Session.UserFio)
+        ? "Гость"
+        : Session.UserFio;
 }

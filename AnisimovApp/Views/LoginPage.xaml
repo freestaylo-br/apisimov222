@@ -15,6 +15,11 @@
         Spacing="15"
         VerticalOptions="Center">
 
+        <Image
+            Source="logo.jpg"
+            HeightRequest="90"
+            WidthRequest="90"/>
+
         <Label
             FontSize="28"
             HorizontalOptions="Center"
@@ -31,7 +36,19 @@
 
         <Button
             Text="Войти"
-            Command="{Binding LoginUserCommand}" />
+            Command="{Binding LoginUserCommand}"
+            BackgroundColor="#00FA9A"
+            TextColor="Black"
+            FontAttributes="Bold"/>
+            
+
+        <Button
+            Text="Войти как гость"
+            Command="{Binding GuestLoginCommand}"
+            Margin="0,10,0,0"
+            BackgroundColor="#00FA9A"
+            TextColor="Black"
+            FontAttributes="Bold"/>
 
     </VerticalStackLayout>
 

@@ -26,13 +26,16 @@ namespace apisimov222
 
             var app = builder.Build();
 
+            app.UseStaticFiles();
+            Console.WriteLine(app.Environment.WebRootPath);
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
