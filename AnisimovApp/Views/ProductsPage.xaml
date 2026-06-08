@@ -12,7 +12,7 @@
         <viewModels:ProductsViewModel/>
     </ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto,Auto,*">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
 
         <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto">
 
@@ -48,8 +48,31 @@
             Text="{Binding SearchText}"
             Margin="10,0"/>
 
-        <CollectionView
+        <HorizontalStackLayout
             Grid.Row="2"
+            Margin="10,5"
+            Spacing="20">
+
+            <RadioButton
+                Content="По возрастанию"
+                IsChecked="{Binding IsAscending}" />    
+
+            <RadioButton
+                Content="По убыванию"
+                IsChecked="{Binding IsDescending}" />
+
+            <Picker
+                Grid.Row="3"
+                Title="Поставщик"
+                ItemsSource="{Binding Suppliers}"
+                ItemDisplayBinding="{Binding SupplierName}"
+                SelectedItem="{Binding SelectedSupplier}"
+                Margin="10"/>
+
+        </HorizontalStackLayout>
+
+        <CollectionView
+            Grid.Row="4"
             ItemsSource="{Binding Products}"
             Margin="10">
 

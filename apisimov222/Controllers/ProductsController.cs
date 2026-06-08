@@ -16,13 +16,24 @@ namespace apisimov222.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> GetProducts(string search = "")
         {
-            var products = await _context.Products
+            var query = _context.Products
                 .Include(x => x.Category)
                 .Include(x => x.Manufacturer)
                 .Include(x => x.Supplier)
                 .Include(x => x.ProductName)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                search = search.ToLower();
+
+                query = query.Where(x =>
+                    x.ProductName.Name.ToLower().Contains(search.ToLower()));
+            }
+
+            var products = await query
                 .Select(x => new
                 {
                     x.ProductId,
@@ -48,7 +59,27 @@ namespace apisimov222.Controllers
         public async Task<IActionResult> GetProductsAsc()
         {
             var products = await _context.Products
+                .Include(x => x.Category)
+                .Include(x => x.Manufacturer)
+                .Include(x => x.Supplier)
+                .Include(x => x.ProductName)
                 .OrderBy(x => x.Count)
+                .Select(x => new
+                {
+                    x.ProductId,
+                    ProductName = x.ProductName.Name,
+                    x.Article,
+                    x.Description,
+                    x.Amount,
+                    x.Discount,
+                    x.Count,
+                    x.Photo,
+                    x.UnitOfMeasurement,
+
+                    Category = x.Category.CategoryName,
+                    Manufacturer = x.Manufacturer.ManufacturerName,
+                    Supplier = x.Supplier.SupplierName
+                })
                 .ToListAsync();
 
             return Ok(products);
@@ -58,7 +89,27 @@ namespace apisimov222.Controllers
         public async Task<IActionResult> GetProductsDesc()
         {
             var products = await _context.Products
+                .Include(x => x.Category)
+                .Include(x => x.Manufacturer)
+                .Include(x => x.Supplier)
+                .Include(x => x.ProductName)
                 .OrderByDescending(x => x.Count)
+                .Select(x => new
+                {
+                    x.ProductId,
+                    ProductName = x.ProductName.Name,
+                    x.Article,
+                    x.Description,
+                    x.Amount,
+                    x.Discount,
+                    x.Count,
+                    x.Photo,
+                    x.UnitOfMeasurement,
+
+                    Category = x.Category.CategoryName,
+                    Manufacturer = x.Manufacturer.ManufacturerName,
+                    Supplier = x.Supplier.SupplierName
+                })
                 .ToListAsync();
 
             return Ok(products);

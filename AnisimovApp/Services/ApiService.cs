@@ -42,12 +42,27 @@ public class ApiService
             .ReadFromJsonAsync<LoginResponse>();
     }
 
-    public async Task<List<Product>> GetProducts()
+    public async Task<List<Product>> GetProducts(string search = "")
     {
-        var products =
-            await _client.GetFromJsonAsync<List<Product>>(
-                "Products");
+        var products = await _client.GetFromJsonAsync<List<Product>>($"Products?search={search}");
 
         return products ?? new List<Product>();
+    }
+    public async Task<List<Product>> GetProductsAsc()
+    {
+        return await _client.GetFromJsonAsync<List<Product>>(
+            "Products/sort/asc") ?? new List<Product>();
+    }
+
+    public async Task<List<Product>> GetProductsDesc()
+    {
+        return await _client.GetFromJsonAsync<List<Product>>(
+            "Products/sort/desc") ?? new List<Product>();
+    }
+
+    public async Task<List<Supplier>> GetSuppliers()
+    {
+        return await _client.GetFromJsonAsync<List<Supplier>>(
+            "Suppliers") ?? new List<Supplier>();
     }
 }
