@@ -30,7 +30,13 @@ namespace apisimov222.Controllers
                 search = search.ToLower();
 
                 query = query.Where(x =>
-                    x.ProductName.Name.ToLower().Contains(search.ToLower()));
+                    x.ProductName.Name.ToLower().Contains(search)
+                    || x.Description.ToLower().Contains(search)
+                    || x.Article.ToLower().Contains(search)
+                    || x.Category.CategoryName.ToLower().Contains(search)
+                    || x.Manufacturer.ManufacturerName.ToLower().Contains(search)
+                    || x.Supplier.SupplierName.ToLower().Contains(search)
+                    || x.UnitOfMeasurement.ToLower().Contains(search));
             }
 
             var products = await query
@@ -114,5 +120,45 @@ namespace apisimov222.Controllers
 
             return Ok(products);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProduct(ProductDto dto)
+        {
+            var productName = await _context.ProductNames
+                .FirstOrDefaultAsync(x => x.Name == dto.ProductName);
+
+            if (productName == null)
+            {
+                productName = new ProductName
+                {
+                    Name = dto.ProductName
+                };
+
+                _context.ProductNames.Add(productName);
+
+                await _context.SaveChangesAsync();
+            }
+
+            var product = new Product
+            {
+                ProductNameId = productName.ProductNameId,
+                Description = dto.Description,
+                Amount = dto.Amount,
+                Discount = dto.Discount,
+                Count = dto.Count,
+                UnitOfMeasurement = dto.UnitOfMeasurement,
+                Article = dto.Article,
+                CategoryId = dto.CategoryId,
+                ManufacturerId = dto.ManufacturerId,
+                SupplierId = dto.SupplierId
+            };
+
+            _context.Products.Add(product);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
+
 }

@@ -42,7 +42,7 @@ public partial class LoginViewModel : ObservableObject
 
             Session.UserFio = $"{user.Surname} {user.Name} {user.Patronymic}";
 
-            
+            Session.UserRole = user.Role;
 
             Application.Current.MainPage =
                 new NavigationPage(
@@ -61,6 +61,8 @@ public partial class LoginViewModel : ObservableObject
     private async Task GuestLogin()
     {
         Session.UserFio = "Гость";
+
+        Session.UserRole = "Guest";
 
         await Application.Current.MainPage.Navigation.PushAsync(new ProductsPage());
     }

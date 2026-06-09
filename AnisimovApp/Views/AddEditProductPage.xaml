@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AnisimovApp.Views.AddEditProductPage"
+    Title="Товар">
+
+    <ScrollView>
+
+        <VerticalStackLayout
+            Padding="15"
+            Spacing="10">
+
+            <Image
+                Source="no_photo.png"
+                HeightRequest="200"
+                WidthRequest="300"
+                Aspect="AspectFit"/>
+
+            <Button
+                Text="Выбрать фото"/>
+
+            <Entry
+                Placeholder="Наименование"
+                Text="{Binding ProductName}" />
+
+            <Picker
+                x:Name="CategoryPicker"
+                Title="Категория"
+                ItemsSource="{Binding Categories}"
+                SelectedItem="{Binding SelectedCategory}"
+                ItemDisplayBinding="{Binding CategoryName}"/>
+
+            <Editor
+                Placeholder="Описание"
+                Text="{Binding Description}"
+                HeightRequest="100" />
+
+            <Picker
+                x:Name="ManufacturerPicker"
+                Title="Производитель"
+                ItemsSource="{Binding Manufacturers}"
+                SelectedItem="{Binding SelectedManufacturer}"
+                ItemDisplayBinding="{Binding ManufacturerName}"/>
+
+            <Picker
+                x:Name="SupplierPicker"
+                Title="Поставщик"
+                ItemsSource="{Binding Suppliers}"
+                SelectedItem="{Binding SelectedSupplier}"
+                ItemDisplayBinding="{Binding SupplierName}"/>
+
+            <Entry
+                Placeholder="Цена"
+                Keyboard="Numeric"
+                Text="{Binding Amount}" />
+
+            <Entry
+                Placeholder="Единица измерения"
+                Text="{Binding UnitOfMeasurement}" />
+
+            <Entry
+                Placeholder="Количество"
+                Keyboard="Numeric"
+                Text="{Binding Count}" />
+
+            <Entry
+                Placeholder="Скидка"
+                Keyboard="Numeric"
+                Text="{Binding Discount}" />
+
+            <Button
+                Text="Сохранить"
+                Clicked="Save_Clicked"/>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>

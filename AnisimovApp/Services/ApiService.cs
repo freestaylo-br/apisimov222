@@ -65,4 +65,24 @@ public class ApiService
         return await _client.GetFromJsonAsync<List<Supplier>>(
             "Suppliers") ?? new List<Supplier>();
     }
+
+    public async Task<List<Category>> GetCategories()
+    {
+        return await _client.GetFromJsonAsync<List<Category>>("Categories") ?? new List<Category>();
+    }
+
+    public async Task<List<Manufacturer>> GetManufacturers()
+    {
+        return await _client.GetFromJsonAsync<List<Manufacturer>>("Manufacturers") ?? new List<Manufacturer>();
+    }
+
+    public async Task<bool> AddProduct(ProductDto product)
+    {
+        var response =
+            await _client.PostAsJsonAsync(
+                "Products",
+                product);
+
+        return response.IsSuccessStatusCode;
+    }
 }

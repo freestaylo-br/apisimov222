@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace apisimov222.Models;
+namespace AnisimovApp.Models;
 
-public partial class Manufacturer
+public class Manufacturer
 {
     public int ManufacturerId { get; set; }
-
     public string ManufacturerName { get; set; } = "";
-
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

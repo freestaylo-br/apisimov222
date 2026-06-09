@@ -51,17 +51,26 @@ public partial class ProductsViewModel : ObservableObject
 
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
+            var search = SearchText.ToLower();
+
             products = products.Where(x =>
-                x.ProductName.Contains(
-                    SearchText,
-                    StringComparison.OrdinalIgnoreCase))
+                ($"{x.ProductName} " +
+                 $"{x.Description} " +
+                 $"{x.Article} " +
+                 $"{x.Category} " +
+                 $"{x.Manufacturer} " +
+                 $"{x.Supplier} " +
+                 $"{x.UnitOfMeasurement}")
+                .ToLower()
+                .Contains(search))
                 .ToList();
         }
 
         if (SelectedSupplier != null && SelectedSupplier.SupplierId != 0)
         {
             products = products
-                .Where(x => x.Supplier == SelectedSupplier.SupplierName).ToList();
+                .Where(x => x.Supplier == SelectedSupplier.SupplierName)
+                .ToList();
         }
 
         Products.Clear();
@@ -125,4 +134,8 @@ public partial class ProductsViewModel : ObservableObject
     {
         LoadProducts();
     }
+
+    public bool IsAdmin => Session.UserRole == "Администратор";
+    public bool IsManager => Session.UserRole == "Менеджер";
+    public bool IsEmployee => Session.UserRole == "Администратор" || Session.UserRole == "Менеджер";
 }

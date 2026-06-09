@@ -4,6 +4,12 @@ public class Product
 {
     public int ProductId { get; set; }
 
+    public int CategoryId { get; set; }
+
+    public int ManufacturerId { get; set; }
+
+    public int SupplierId { get; set; }
+
     public string ProductName { get; set; } = "";
 
     public string Article { get; set; } = "";
