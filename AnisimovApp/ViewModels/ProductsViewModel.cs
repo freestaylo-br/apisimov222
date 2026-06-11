@@ -36,7 +36,7 @@ public partial class ProductsViewModel : ObservableObject
         LoadProducts();
     }
 
-    private async void LoadProducts()
+    public async void LoadProducts()
     {
         List<Product> products;
 

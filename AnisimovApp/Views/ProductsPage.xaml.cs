@@ -14,11 +14,39 @@ public partial class ProductsPage : ContentPage
 		BindingContext = new ProductsViewModel();
 	}
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is ProductsViewModel vm)
+        {
+            vm.LoadProducts();
+        }
+    }
+
     private async void AddProduct_Clicked(
         object sender,
         EventArgs e)
     {
-		await Navigation.PushAsync(new AddEditProductPage());
+		if (AddEditProductPage.IsOpened)
+        {
+            await DisplayAlert Alert(
+                "Внимание",
+                "Окно редактирования уже открыто",
+                "ОК");
+            return;
+        }
+
+        AddEditProductPage.IsOpened = true;
+
+        await Navigation.PushAsync(new AddEditProductPage(product));
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        IsOpened = false;
     }
 
     private void Logout_Clicked(object sender, EventArgs e) 

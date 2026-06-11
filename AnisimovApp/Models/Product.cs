@@ -39,7 +39,7 @@ public class Product
         }
     }
 
-    public string UnitOfMeasurement { get; set; } = "";
+    public string UnitOfMeasurement { get; set; } = "шт.";
 
     public string Category { get; set; } = "";
 

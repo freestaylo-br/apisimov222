@@ -12,17 +12,19 @@
             Spacing="10">
 
             <Image
+                x:Name="ProductImage"
                 Source="no_photo.png"
                 HeightRequest="200"
                 WidthRequest="300"
                 Aspect="AspectFit"/>
 
             <Button
-                Text="Выбрать фото"/>
+                Text="Выбрать фото"
+                Clicked="PickPhoto_Clicked"/>
 
             <Entry
                 Placeholder="Наименование"
-                Text="{Binding ProductName}" />
+                Text="{Binding Product.ProductName}" />
 
             <Picker
                 x:Name="CategoryPicker"
@@ -33,7 +35,7 @@
 
             <Editor
                 Placeholder="Описание"
-                Text="{Binding Description}"
+                Text="{Binding Product.Description}"
                 HeightRequest="100" />
 
             <Picker
@@ -53,21 +55,28 @@
             <Entry
                 Placeholder="Цена"
                 Keyboard="Numeric"
-                Text="{Binding Amount}" />
+                Text="{Binding Product.Amount}" />
 
             <Entry
                 Placeholder="Единица измерения"
-                Text="{Binding UnitOfMeasurement}" />
+                Text="{Binding Product.UnitOfMeasurement}" />
 
             <Entry
                 Placeholder="Количество"
                 Keyboard="Numeric"
-                Text="{Binding Count}" />
+                Text="{Binding Product.Count}" />
 
             <Entry
                 Placeholder="Скидка"
                 Keyboard="Numeric"
-                Text="{Binding Discount}" />
+                Text="{Binding Product.Discount}" />
+
+            <Button
+                Text="Удалить товар"
+                BackgroundColor="Red"
+                TextColor="White"
+                IsVisible="{Binding IsEditMode}"
+                Clicked="Delete_Clicked"/>
 
             <Button
                 Text="Сохранить"

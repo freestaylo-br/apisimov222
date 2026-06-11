@@ -85,4 +85,23 @@ public class ApiService
 
         return response.IsSuccessStatusCode;
     }
+
+    public async Task<bool> DeleteProduct(int id)
+    {
+        var response =
+            await _client.DeleteAsync($"Products/{id}");
+
+        return response.IsSuccessStatusCode;
+    }
+    public async Task<bool> UpdateProduct(
+    int id,
+    ProductDto dto)
+    {
+        var response =
+            await _client.PutAsJsonAsync(
+                $"Products/{id}",
+                dto);
+
+        return response.IsSuccessStatusCode;
+    }
 }

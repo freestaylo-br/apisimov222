@@ -19,24 +19,30 @@ namespace apisimov222.Controllers
         public async Task<IActionResult> GetProducts(string search = "")
         {
             var query = _context.Products
-                .Include(x => x.Category)
-                .Include(x => x.Manufacturer)
-                .Include(x => x.Supplier)
-                .Include(x => x.ProductName)
+                .Include(p => p.Category)
+                .Include(p => p.Manufacturer)
+                .Include(p => p.Supplier)
+                .Include(p => p.ProductName)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                search = search.ToLower();
+                var words = search
+                    .ToLower()
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-                query = query.Where(x =>
-                    x.ProductName.Name.ToLower().Contains(search)
-                    || x.Description.ToLower().Contains(search)
-                    || x.Article.ToLower().Contains(search)
-                    || x.Category.CategoryName.ToLower().Contains(search)
-                    || x.Manufacturer.ManufacturerName.ToLower().Contains(search)
-                    || x.Supplier.SupplierName.ToLower().Contains(search)
-                    || x.UnitOfMeasurement.ToLower().Contains(search));
+                foreach (var word in words)
+                {
+
+                    query = query.Where(p =>
+                        p.ProductName.Name.ToLower().Contains(word)
+                        || p.Description.ToLower().Contains(word)
+                        || p.Article.ToLower().Contains(word)
+                        || p.Category.CategoryName.ToLower().Contains(word)
+                        || p.Manufacturer.ManufacturerName.ToLower().Contains(word)
+                        || p.Supplier.SupplierName.ToLower().Contains(word)
+                        || p.UnitOfMeasurement.ToLower().Contains(word));
+                }
             }
 
             var products = await query
@@ -148,12 +154,86 @@ namespace apisimov222.Controllers
                 Count = dto.Count,
                 UnitOfMeasurement = dto.UnitOfMeasurement,
                 Article = dto.Article,
+                Photo = dto.Photo,
+
                 CategoryId = dto.CategoryId,
                 ManufacturerId = dto.ManufacturerId,
                 SupplierId = dto.SupplierId
             };
 
             _context.Products.Add(product);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await _context.Products
+                .FindAsync(id);
+
+            if (product == null)
+                return NotFound();
+
+            var inOrder = await _context.Carts
+                .AnyAsync(x => x.ProductId == id);
+
+            if (inOrder)
+            {
+                return BadRequest(
+                    "Товар присутствует в заказе и не может быть удалён");
+            }
+
+            _context.Products.Remove(product);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(
+    int id,
+    ProductDto dto)
+        {
+            var product = await _context.Products
+                .Include(x => x.ProductName)
+                .FirstOrDefaultAsync(x => x.ProductId == id);
+
+            if (product == null)
+                return NotFound();
+
+            product.ProductName.Name =
+                dto.ProductName;
+
+            product.Description =
+                dto.Description;
+
+            product.Amount =
+                dto.Amount;
+
+            product.Discount =
+                dto.Discount;
+
+            product.Count =
+                dto.Count;
+
+            product.UnitOfMeasurement =
+                dto.UnitOfMeasurement;
+
+            product.Article =
+                dto.Article;
+
+            product.CategoryId =
+                dto.CategoryId;
+
+            product.ManufacturerId =
+                dto.ManufacturerId;
+
+            product.SupplierId =
+                dto.SupplierId;
 
             await _context.SaveChangesAsync();
 

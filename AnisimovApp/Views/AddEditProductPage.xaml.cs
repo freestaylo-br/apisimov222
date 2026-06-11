@@ -6,7 +6,10 @@ namespace AnisimovApp.Views;
 
 public partial class AddEditProductPage : ContentPage
 {
+    public static bool IsOpened = false;
     private readonly ApiService _apiService = new();
+
+    private string? _selectedPhotoPath;
 
     public Product Product { get; set; }
 
@@ -108,6 +111,8 @@ public partial class AddEditProductPage : ContentPage
         Product.SupplierId =
             supplier.SupplierId;
 
+
+
         var dto = new ProductDto
         {
             ProductName = Product.ProductName,
@@ -117,14 +122,27 @@ public partial class AddEditProductPage : ContentPage
             Count = Product.Count,
             UnitOfMeasurement = Product.UnitOfMeasurement,
             Article = Product.Article,
+            Photo = Product.Photo,
 
             CategoryId = category.CategoryId,
             ManufacturerId = manufacturer.ManufacturerId,
             SupplierId = supplier.SupplierId
         };
 
-        var result =
-            await _apiService.AddProduct(dto);
+        bool result;
+
+        if (Product.ProductId == 0)
+        {
+            result =
+                await _apiService.AddProduct(dto);
+        }
+        else
+        {
+            result =
+                await _apiService.UpdateProduct(
+                    Product.ProductId,
+                    dto);
+        }
 
         if (result)
         {
@@ -143,4 +161,61 @@ public partial class AddEditProductPage : ContentPage
                 "OK");
         }
     }
+    private async void PickPhoto_Clicked(
+    object sender,
+    EventArgs e)
+    {
+        var file = await FilePicker.Default.PickAsync(
+            new PickOptions
+            {
+                PickerTitle = "Выберите фото"
+            });
+
+        if (file == null)
+            return;
+
+        _selectedPhotoPath = file.FullPath;
+
+        Product.Photo = Path.GetFileName(file.FullPath);
+
+        ProductImage.Source =
+            ImageSource.FromFile(file.FullPath);
+    }
+
+    private async void Delete_Clicked(
+    object sender,
+    EventArgs e)
+    {
+        bool answer = await DisplayAlert(
+            "Удаление",
+            "Удалить товар?",
+            "Да",
+            "Нет");
+
+        if (!answer)
+            return;
+
+        var result =
+            await _apiService.DeleteProduct(
+                Product.ProductId);
+
+        if (result)
+        {
+            await DisplayAlert(
+                "Успех",
+                "Товар удалён",
+                "OK");
+
+            await Navigation.PopAsync();
+        }
+        else
+        {
+            await DisplayAlert(
+                "Ошибка",
+                "Товар используется в заказах",
+                "OK");
+        }
+    }
+
+    public bool IsEditMode => Product.ProductId > 0;
 }

@@ -21,4 +21,5 @@ public class ProductDto
     public int ManufacturerId { get; set; }
 
     public int SupplierId { get; set; }
+    public string? Photo { get; set; }
 }
